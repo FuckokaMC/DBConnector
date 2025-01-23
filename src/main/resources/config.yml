@@ -1,0 +1,9 @@
+# DBの種類(sqlite/mysql)
+type: sqlite
+sqlite:
+  file: fuckokamc.db
+mysql:
+  url: localhost:3306
+  name: fuckokamc
+  user: root
+  password: password
