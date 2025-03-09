@@ -18,7 +18,7 @@ class DBConnector : JavaPlugin() {
                 }
 
                 "mysql" -> {
-                    url = "jdbc:mysql://${config.getString("mysql.url")}:${config.getString("mysql.name")}"
+                    url = "jdbc:mysql://${config.getString("mysql.url")}/${config.getString("mysql.name")}"
                     driver = "com.mysql.jdbc.Driver"
                     user = config.getString("mysql.user", "")!!
                     password = config.getString("mysql.password", "")!!
@@ -26,6 +26,7 @@ class DBConnector : JavaPlugin() {
             }
             Database.connect(url, driver, user, password)
         } catch (e: Exception) {
+            logger.warning(e.stackTraceToString())
             logger.warning("データベースに接続できないためプラグインを無効化します。");
             // 接続できない場合はプラグインを無効化
             server.pluginManager.disablePlugin(this)
