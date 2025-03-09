@@ -5,7 +5,7 @@ plugins {
 }
 
 group = "mc.fuckoka"
-version = "1.0.1"
+version = "1.0.2"
 
 repositories {
     mavenCentral()
@@ -16,6 +16,7 @@ repositories {
 }
 
 dependencies {
+    compileOnly("org.jetbrains.kotlin:kotlin-stdlib")
     compileOnly("io.papermc.paper:paper-api:1.21.4-R0.1-SNAPSHOT")
     compileOnly("com.zaxxer:HikariCP:6.2.1")
     compileOnly("com.mysql:mysql-connector-j:9.2.0")
