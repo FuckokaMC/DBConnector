@@ -1,12 +1,12 @@
 name: DBConnector
-version: 1.0.0
+version: 1.0.3
 main: mc.fuckoka.dbconnector.DBConnector
 description: DB接続用
 author: deceitya
 website: https://github.com/FuckokaMC/DBConnector
-api-version: 1.21.4
+api-version: 1.21
 load: POSTWORLD
 libraries:
   - com.zaxxer:HikariCP:6.2.1
   - com.mysql:mysql-connector-j:9.2.0
-  - org.jetbrains.kotlin:kotlin-stdlib:2.0.21
+  - org.jetbrains.kotlin:kotlin-stdlib:2.1.10
