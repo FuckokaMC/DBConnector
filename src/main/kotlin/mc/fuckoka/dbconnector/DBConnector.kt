@@ -32,4 +32,8 @@ class DBConnector : JavaPlugin() {
             server.pluginManager.disablePlugin(this)
         }
     }
+
+    override fun onDisable() {
+        Database.close()
+    }
 }
