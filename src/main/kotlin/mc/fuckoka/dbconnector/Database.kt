@@ -9,7 +9,7 @@ object Database {
     internal lateinit var dataSource: HikariDataSource
 
     @PublishedApi
-    internal var connection: Connection? = null
+    internal var conn: Connection? = null
 
     /**
      * コネクション取得
@@ -17,22 +17,22 @@ object Database {
      *
      * @return
      */
-    fun getConnection(): Connection? = connection
+    fun getConnection(): Connection? = conn
 
     inline fun <T> transaction(statement: () -> T): T {
         var result: T? = null
 
-        connection = dataSource.connection
+        conn = dataSource.connection
         try {
-            connection?.autoCommit = false
+            conn?.autoCommit = false
             result = statement()
-            connection?.commit()
+            conn?.commit()
         } catch (e: Exception) {
-            connection?.rollback()
+            conn?.rollback()
         } finally {
-            connection?.autoCommit = true
-            connection?.close()
-            connection = null
+            conn?.autoCommit = true
+            conn?.close()
+            conn = null
         }
         return result!!
     }
