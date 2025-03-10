@@ -8,19 +8,31 @@ object Database {
     @PublishedApi
     internal lateinit var dataSource: HikariDataSource
 
-    inline fun <T> transaction(statement: Connection.() -> T): T {
+    @PublishedApi
+    internal var connection: Connection? = null
+
+    /**
+     * コネクション取得
+     * transactionスコープ外ではnull
+     *
+     * @return
+     */
+    fun getConnection(): Connection? = connection
+
+    inline fun <T> transaction(statement: () -> T): T {
         var result: T? = null
 
-        val connection = dataSource.connection
+        connection = dataSource.connection
         try {
             connection?.autoCommit = false
-            result = statement(connection)
+            result = statement()
             connection?.commit()
         } catch (e: Exception) {
             connection?.rollback()
         } finally {
             connection?.autoCommit = true
             connection?.close()
+            connection = null
         }
         return result!!
     }
