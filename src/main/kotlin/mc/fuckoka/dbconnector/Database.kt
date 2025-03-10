@@ -5,21 +5,16 @@ import com.zaxxer.hikari.HikariDataSource
 import java.sql.Connection
 
 object Database {
-    private lateinit var dataSource: HikariDataSource
+    @PublishedApi
+    internal lateinit var dataSource: HikariDataSource
 
-    /**
-     * Database.transaction{}の外ではnullになります
-     */
-    var connection: Connection? = null
-        private set
-
-    fun <T> transaction(block: () -> T): T {
+    inline fun <T> transaction(statement: Connection.() -> T): T {
         var result: T? = null
 
-        connection = dataSource.connection
+        val connection = dataSource.connection
         try {
             connection?.autoCommit = false
-            result = block()
+            result = statement(connection)
             connection?.commit()
         } catch (e: Exception) {
             connection?.rollback()
@@ -27,8 +22,6 @@ object Database {
             connection?.autoCommit = true
             connection?.close()
         }
-        connection = null
-
         return result!!
     }
 
