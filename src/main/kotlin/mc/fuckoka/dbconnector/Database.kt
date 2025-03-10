@@ -20,21 +20,19 @@ object Database {
     fun getConnection(): Connection? = conn
 
     inline fun <T> transaction(statement: () -> T): T {
-        var result: T? = null
-
-        conn = dataSource.connection
         try {
-            conn?.autoCommit = false
-            result = statement()
+            conn = dataSource.connection
+            val result = statement()
             conn?.commit()
+            return result
         } catch (e: Exception) {
             conn?.rollback()
+            throw e
         } finally {
             conn?.autoCommit = true
             conn?.close()
             conn = null
         }
-        return result!!
     }
 
     internal fun connect(url: String, driver: String = "", user: String = "", password: String = "") {
