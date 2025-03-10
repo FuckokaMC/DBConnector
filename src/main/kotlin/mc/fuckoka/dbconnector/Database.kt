@@ -22,6 +22,7 @@ object Database {
     inline fun <T> transaction(statement: () -> T): T {
         try {
             conn = dataSource.connection
+            conn?.autoCommit = false
             val result = statement()
             conn?.commit()
             return result
