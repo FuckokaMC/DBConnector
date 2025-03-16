@@ -1,9 +1,9 @@
 # 使い方
 ```kotlin
-import mc.fuckoka.dbconnector
+import mc.fuckoka.dbconnector.Database
 
 Database.transaction {
-    val connection = Database.connection // java.sql.Connection
+    val connection = Database.getConnection() // java.sql.Connection
     // ~~~
 }
 ```
